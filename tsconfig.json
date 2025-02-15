@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
     "noEmit": true,
-    "module": "NodeNext",
+    "module": "ESNext",
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
