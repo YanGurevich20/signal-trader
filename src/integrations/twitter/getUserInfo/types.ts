@@ -6,4 +6,4 @@ export type TwitterUserInfo = {
   tweets: number;
   likes: number;
   listed: number;
-}
+};
