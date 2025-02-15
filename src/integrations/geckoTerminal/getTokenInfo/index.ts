@@ -4,9 +4,9 @@ import { TokenInfoResponse } from "./types";
 
 export const getTokenInfo = async (
   tokenAddress: string,
-): Promise<TokenInfoResponse> => {
+) => {
   const result = await axios.get<TokenInfoResponse>(
     `${BASE_URL}/networks/solana/tokens/${tokenAddress}/info`,
   );
-  return result.data;
+  return result.data.data;
 };
