@@ -19,4 +19,4 @@ type TokenRelationship = {
   };
 };
 
-export { TransactionMetrics, PriceChangePercentage, TokenRelationship }; 
+export { TransactionMetrics, PriceChangePercentage, TokenRelationship };

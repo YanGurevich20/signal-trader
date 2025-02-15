@@ -7,9 +7,9 @@ export const getLatestPools = async () => {
     `${BASE_URL}/networks/solana/new_pools`,
     {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
         Cookie: new Date().getTime().toString(),
       },
     },

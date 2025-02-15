@@ -1,4 +1,8 @@
-import { TransactionMetrics, PriceChangePercentage, TokenRelationship } from '../sharedTypes';
+import {
+  TransactionMetrics,
+  PriceChangePercentage,
+  TokenRelationship,
+} from "../sharedTypes";
 
 type VolumeUSD = {
   m5: string;
