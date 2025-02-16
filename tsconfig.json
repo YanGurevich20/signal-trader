@@ -13,8 +13,10 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/utils/*": ["./utils/*"]
-    }
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "include": ["src/**/*.ts", "eslint.config.mjs", "eslint.config.js"],
+  "include": ["src/**/*.ts", "eslint.config.mjs", "eslint.config.js", "database/database.ts"],
   "exclude": ["node_modules", "dist"]
 }
