@@ -2,7 +2,7 @@ import { database } from "@/database/database";
 import { TwitterUser } from "@/database/entities/TwitterUser";
 import { getUserInfo } from "../getUserInfo";
 
-export const getOrInsertUser = async (handle: string) => {
+export const getOrInsertUser = async (handle: string): Promise<TwitterUser> => {
   const userRepository = await database.getRepository(TwitterUser);
   const user = await userRepository.findOne({ where: { handle } });
   if (user) {
@@ -18,4 +18,3 @@ export const getOrInsertUser = async (handle: string) => {
   await userRepository.save(newUser);
   return newUser;
 };
-

@@ -35,7 +35,7 @@ type PoolAttributes = {
   reserve_in_usd: string;
 };
 
-type Pool = {
+export type Pool = {
   id: string;
   type: string;
   attributes: PoolAttributes;

@@ -1,6 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
-@Entity({name: "twitter_users"})
+@Entity({ name: "twitter_users" })
 export class TwitterUser {
   @PrimaryGeneratedColumn("increment")
   id!: string;
@@ -14,18 +20,18 @@ export class TwitterUser {
   @Column({ type: "integer" })
   follower_count!: number;
 
-  @Column({ type: "integer" })
-  following_count!: number;
+  @Column({ type: "integer", nullable: true })
+  following_count?: number;
 
-  @Column({ type: "integer" })
-  tweet_count!: number;
+  @Column({ type: "integer", nullable: true })
+  tweet_count?: number;
 
   @Column({ type: "boolean", nullable: true })
   is_verified?: boolean;
 
-  @CreateDateColumn({type: "timestamp with time zone"})
-  createdAt!: Date;
+  @CreateDateColumn({ type: "timestamp with time zone" })
+  created_at!: Date;
 
-  @UpdateDateColumn({type: "timestamp with time zone"})
-  updatedAt!: Date;
+  @UpdateDateColumn({ type: "timestamp with time zone" })
+  updated_at!: Date;
 }

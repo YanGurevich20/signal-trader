@@ -6,14 +6,13 @@ const AppDataSource = new DataSource({
   type: "postgres",
   url: process.env.DATABASE_POOLER_CONNECTION_STRING,
   synchronize: true,
-  logging: true,
   entities: ["src/database/entities/**/*.ts"],
   subscribers: [],
   migrations: [],
   ssl: {
-    rejectUnauthorized: false
-  }
-}); 
+    rejectUnauthorized: false,
+  },
+});
 
 class Database {
   private static instance: Database;
@@ -44,13 +43,14 @@ class Database {
     }
   }
 
-  public async getRepository<T extends ObjectLiteral>(entity: EntityTarget<T>): Promise<Repository<T>> {
+  public async getRepository<T extends ObjectLiteral>(
+    entity: EntityTarget<T>,
+  ): Promise<Repository<T>> {
     await this.ensureInitialized();
-    
+
     // Get entity name to use as cache key
-    const entityName = typeof entity === 'function' 
-      ? entity.name 
-      : entity.toString();
+    const entityName =
+      typeof entity === "function" ? entity.name : entity.toString();
 
     // Check if repository exists in cache
     if (!this.repositories.has(entityName)) {
@@ -58,7 +58,7 @@ class Database {
       const repository = this.dataSource.getRepository(entity);
       this.repositories.set(entityName, repository);
     }
-    
+
     // Return cached repository
     return this.repositories.get(entityName) as Repository<T>;
   }

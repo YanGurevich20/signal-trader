@@ -13,6 +13,6 @@ export const main = async () => {
   await userRepository.save(user);
   const users = await userRepository.find();
   console.log(users);
-}
+};
 
 main();

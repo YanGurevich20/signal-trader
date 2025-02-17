@@ -12,11 +12,18 @@
     "esModuleInterop": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@/utils/*": ["./utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/notifications/*": ["./src/notifications/*"],
+      "@/database/*": ["./src/database/*"],
+      "@/integrations/*": ["./src/integrations/*"],
+      "@/monitors/*": ["./src/monitors/*"],
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["src/**/*.ts", "eslint.config.mjs", "eslint.config.js", "database/database.ts"],
+  "include": [
+    "src/**/*",
+    "eslint.config.js",
+  ],
   "exclude": ["node_modules", "dist"]
 }
