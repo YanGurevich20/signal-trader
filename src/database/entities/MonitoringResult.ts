@@ -79,4 +79,4 @@ export class MonitoringResult {
 
   @CreateDateColumn({ type: "timestamp with time zone" })
   created_at!: Date;
-} 
+}

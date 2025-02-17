@@ -18,7 +18,7 @@ export class TokenPriceMonitor {
 
   private constructor(
     private token: DetectedToken,
-    private buyTransaction: BuyTransaction
+    private buyTransaction: BuyTransaction,
   ) {
     this.initialPrice = token.initial_state.price_usd;
     this.highestPrice = this.initialPrice;
@@ -26,7 +26,10 @@ export class TokenPriceMonitor {
     this.lastPrice = this.initialPrice;
   }
 
-  static async startMonitoring(token: DetectedToken, buyTransaction: BuyTransaction) {
+  static async startMonitoring(
+    token: DetectedToken,
+    buyTransaction: BuyTransaction,
+  ) {
     if (this.instances.has(token.address)) {
       return;
     }
@@ -41,9 +44,11 @@ export class TokenPriceMonitor {
     const quote = await client.quoteGet({
       inputMint: this.token.address,
       outputMint: NATIVE_MINT.toBase58(),
-      amount: this.buyTransaction.received_amount * (10 ** this.token.token_info.decimals),
+      amount:
+        this.buyTransaction.received_amount *
+        10 ** this.token.token_info.decimals,
     });
-    
+
     return Number(quote.outAmount) / LAMPORTS_PER_SOL;
   }
 
@@ -77,9 +82,11 @@ export class TokenPriceMonitor {
         this.lastPrice = currentPrice;
         this.highestPrice = Math.max(this.highestPrice, currentPrice);
         this.lowestPrice = Math.min(this.lowestPrice, currentPrice);
-        
-        console.log(`${this.token.address} - Current: $${currentPrice} | High: $${this.highestPrice} | Low: $${this.lowestPrice}`);
-        
+
+        console.log(
+          `${this.token.address} - Current: $${currentPrice} | High: $${this.highestPrice} | Low: $${this.lowestPrice}`,
+        );
+
         await sleep(INTERVAL);
       } catch (error) {
         console.error(`Error monitoring ${this.token.address}:`, error);
@@ -96,5 +103,3 @@ export class TokenPriceMonitor {
     console.log(`Stopped monitoring ${this.token.address}`);
   }
 }
-
-
