@@ -16,7 +16,7 @@ export type InitialTokenState = {
   price_change_percentage: number;
   price_usd: number;
   fdv_usd: number;
-}
+};
 
 @Entity({ name: "detected_tokens" })
 export class DetectedToken {
@@ -30,7 +30,7 @@ export class DetectedToken {
   @Column({ type: "varchar" })
   address!: string;
 
-  @Column({type: 'jsonb'})
+  @Column({ type: "jsonb" })
   initial_state!: InitialTokenState;
 
   @CreateDateColumn({ type: "timestamp with time zone" })

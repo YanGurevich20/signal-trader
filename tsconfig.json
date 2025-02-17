@@ -16,14 +16,11 @@
       "@/notifications/*": ["./src/notifications/*"],
       "@/database/*": ["./src/database/*"],
       "@/integrations/*": ["./src/integrations/*"],
-      "@/monitors/*": ["./src/monitors/*"],
+      "@/monitors/*": ["./src/monitors/*"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": [
-    "src/**/*",
-    "eslint.config.js",
-  ],
+  "include": ["src/**/*", "eslint.config.js"],
   "exclude": ["node_modules", "dist"]
 }
