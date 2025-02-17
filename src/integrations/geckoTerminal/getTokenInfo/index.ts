@@ -10,7 +10,6 @@ export const getTokenInfo = async (tokenAddress: string, skipSleep = false) => {
   const result = await axios.get<TokenInfoResponse>(
     `${BASE_URL}/networks/solana/tokens/${tokenAddress}/info`,
   );
-  console.log(result.data.data);
   return result.data.data;
 };
 

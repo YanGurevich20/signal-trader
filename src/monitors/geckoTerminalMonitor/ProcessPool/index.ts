@@ -6,10 +6,19 @@ import { AxiosError } from "axios";
 import { logSkip } from "@/utils/errors/logger";
 import { notifyToken } from "./notifyToken";
 import { simulateBuy } from "./simulateBuy";
+import { database } from "@/database/database";
+import { DetectedToken } from "@/database/entities/DetectedToken";
 
 export const processPool = async (pool: Pool) => {
   const tokenAddress = pool.relationships.base_token.data.id.split("_")[1];
   try {
+    const tokenRepo = await database.getRepository(DetectedToken);
+    const existingToken = await tokenRepo.findOne({
+      where: { address: tokenAddress },
+    });
+    if (existingToken) {
+      return;
+    }
     const tokenInfo = await getTokenInfo(tokenAddress);
     const twitterHandle = tokenInfo.attributes.twitter_handle;
     if (!twitterHandle) {
@@ -35,6 +44,13 @@ export const processPool = async (pool: Pool) => {
       await logSkip(
         `Skipping token ${tokenAddress} with ${liquidity} liquidity`,
       );
+      return;
+    }
+    const transactionCount =
+      Number(pool.attributes.transactions.h24.buys) +
+      Number(pool.attributes.transactions.h24.sells);
+    if (transactionCount < 10) {
+      await logSkip(`Skipping token ${tokenAddress} with ${transactionCount} transactions`);
       return;
     }
     const token = await notifyToken(pool, tokenInfo, user);
