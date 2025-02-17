@@ -4,9 +4,11 @@ import { DetectedToken } from "@/database/entities/DetectedToken";
 import { database } from "@/database/database";
 import { sendDiscordMessage } from "@/notifications/discord/sendMessage";
 import { DiscordWebhooks } from "@/notifications/discord/config";
+import { TokenInfoResponse } from "@/integrations/geckoTerminal/getTokenInfo/types";
 
 export const notifyToken = async (
   pool: Pool,
+  tokenInfo: TokenInfoResponse["data"],
   user: TwitterUser,
 ): Promise<DetectedToken> => {
   const tokenAddress = pool.relationships.base_token.data.id.split("_")[1];
@@ -29,6 +31,12 @@ export const notifyToken = async (
     ),
     price_usd: Number(pool.attributes.base_token_price_usd),
     fdv_usd: Number(pool.attributes.fdv_usd),
+  };
+  newToken.token_info = {
+    decimals: Number(tokenInfo.attributes.decimals),
+    symbol: tokenInfo.attributes.symbol,
+    is_pumpfun: tokenInfo.attributes.categories.includes("Pump Fun"),
+    gt_score: tokenInfo.attributes.gt_score,
   };
   await tokenRepo.save(newToken);
   const message =

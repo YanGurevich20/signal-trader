@@ -10,6 +10,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": ["./src/*"],
       "@/utils/*": ["src/utils/*"],

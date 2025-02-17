@@ -5,6 +5,7 @@ import { getTokenPools } from "@/integrations/geckoTerminal/getTokenPools";
 import { AxiosError } from "axios";
 import { logSkip } from "@/utils/errors/logger";
 import { notifyToken } from "./notifyToken";
+import { simulateBuy } from "./simulateBuy";
 
 export const processPool = async (pool: Pool) => {
   const tokenAddress = pool.relationships.base_token.data.id.split("_")[1];
@@ -36,7 +37,8 @@ export const processPool = async (pool: Pool) => {
       );
       return;
     }
-    await notifyToken(pool, user);
+    const token = await notifyToken(pool, tokenInfo, user);
+    await simulateBuy(token);
   } catch (error) {
     if (error instanceof AxiosError) {
       const data = error.response?.data as {

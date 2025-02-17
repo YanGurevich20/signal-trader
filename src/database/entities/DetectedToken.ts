@@ -18,6 +18,13 @@ export type InitialTokenState = {
   fdv_usd: number;
 };
 
+export type TokenInfo = {
+  decimals: number;
+  symbol: string;
+  is_pumpfun: boolean;
+  gt_score: number;
+};
+
 @Entity({ name: "detected_tokens" })
 export class DetectedToken {
   @PrimaryGeneratedColumn("increment")
@@ -29,6 +36,9 @@ export class DetectedToken {
 
   @Column({ type: "varchar" })
   address!: string;
+
+  @Column({ type: "jsonb" })
+  token_info!: TokenInfo;
 
   @Column({ type: "jsonb" })
   initial_state!: InitialTokenState;
