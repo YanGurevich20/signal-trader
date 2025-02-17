@@ -7,15 +7,20 @@ import {
   JoinColumn,
 } from "typeorm";
 import { DetectedToken } from "./DetectedToken";
+import { BuyTransaction } from "./BuyTransaction";
 
-@Entity({ name: "buy_transactions" })
-export class BuyTransaction {
+@Entity({ name: "monitoring_results" })
+export class MonitoringResult {
   @PrimaryGeneratedColumn("increment")
   id!: string;
 
-  @ManyToOne(() => DetectedToken, { onDelete: "CASCADE", nullable: true })
+  @ManyToOne(() => DetectedToken, { onDelete: "CASCADE" })
   @JoinColumn({ name: "detected_token_id" })
-  detected_token?: DetectedToken;
+  detected_token!: DetectedToken;
+
+  @ManyToOne(() => BuyTransaction, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "buy_transaction_id" })
+  buy_transaction!: BuyTransaction;
 
   @Column({
     type: "decimal",
@@ -26,7 +31,7 @@ export class BuyTransaction {
       from: (value: string): number => parseFloat(value),
     },
   })
-  spent_sol!: number;
+  initial_price!: number;
 
   @Column({
     type: "decimal",
@@ -37,7 +42,7 @@ export class BuyTransaction {
       from: (value: string): number => parseFloat(value),
     },
   })
-  swap_usd_value!: number;
+  highest_price!: number;
 
   @Column({
     type: "decimal",
@@ -48,7 +53,7 @@ export class BuyTransaction {
       from: (value: string): number => parseFloat(value),
     },
   })
-  received_amount!: number;
+  lowest_price!: number;
 
   @Column({
     type: "decimal",
@@ -59,11 +64,19 @@ export class BuyTransaction {
       from: (value: string): number => parseFloat(value),
     },
   })
-  token_price_usd!: number;
+  final_price!: number;
 
-  @Column({ type: "bigint" })
-  block!: number;
+  @Column({
+    type: "decimal",
+    precision: 36,
+    scale: 18,
+    transformer: {
+      to: (value: number | string): string => value.toString(),
+      from: (value: string): number => parseFloat(value),
+    },
+  })
+  potential_sol_return!: number;
 
   @CreateDateColumn({ type: "timestamp with time zone" })
   created_at!: Date;
-}
+} 

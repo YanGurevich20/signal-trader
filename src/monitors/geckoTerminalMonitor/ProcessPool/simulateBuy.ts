@@ -4,6 +4,7 @@ import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { createJupiterApiClient } from "@jup-ag/api";
 import { BuyTransaction } from "@/database/entities/BuyTransaction";
 import { database } from "@/database/database";
+import { TokenPriceMonitor } from "@/monitors/tokenPriceMonitor/index";
 
 export const simulateBuy = async (token: DetectedToken) => {
   const solToSpend = 0.1;
@@ -18,6 +19,7 @@ export const simulateBuy = async (token: DetectedToken) => {
   });
   const receivedAmount = Number(quote.outAmount) / 10 ** decimals;
   const usd_value = Number(quote.swapUsdValue);
+  const token_price_usd = usd_value / receivedAmount;
   const buyTransaction = new BuyTransaction();
   const block = quote.contextSlot ?? 0;
 
@@ -25,7 +27,9 @@ export const simulateBuy = async (token: DetectedToken) => {
   buyTransaction.spent_sol = solToSpend;
   buyTransaction.swap_usd_value = usd_value;
   buyTransaction.received_amount = receivedAmount;
+  buyTransaction.token_price_usd = token_price_usd;
   buyTransaction.block = block;
   const buyTransactionRepo = await database.getRepository(BuyTransaction);
   await buyTransactionRepo.save(buyTransaction);
+  await TokenPriceMonitor.startMonitoring(token, buyTransaction);
 };

@@ -70,11 +70,3 @@ export const processPool = async (pool: Pool) => {
     return;
   }
 };
-
-//data to save
-// - pool address
-// - token address
-// - token symbol
-// - token twitter handle
-// - token twitter followers
-// - pool created at
