@@ -50,7 +50,9 @@ export const processPool = async (pool: Pool) => {
       Number(pool.attributes.transactions.h24.buys) +
       Number(pool.attributes.transactions.h24.sells);
     if (transactionCount < 10) {
-      await logSkip(`Skipping token ${tokenAddress} with ${transactionCount} transactions`);
+      await logSkip(
+        `Skipping token ${tokenAddress} with ${transactionCount} transactions`,
+      );
       return;
     }
     const token = await notifyToken(pool, tokenInfo, user);
