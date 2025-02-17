@@ -17,36 +17,36 @@ export class BuyTransaction {
   @JoinColumn({ name: "detected_token_id" })
   detected_token?: DetectedToken;
 
-  @Column({ 
-    type: "decimal", 
-    precision: 16, 
+  @Column({
+    type: "decimal",
+    precision: 16,
     scale: 2,
     transformer: {
       to: (value: number | string): string => value.toString(),
-      from: (value: string): number => parseFloat(value)
-    }
+      from: (value: string): number => parseFloat(value),
+    },
   })
   spent_sol!: number;
 
-  @Column({ 
-    type: "decimal", 
-    precision: 16, 
+  @Column({
+    type: "decimal",
+    precision: 16,
     scale: 2,
     transformer: {
       to: (value: number | string): string => value.toString(),
-      from: (value: string): number => parseFloat(value)
-    }
+      from: (value: string): number => parseFloat(value),
+    },
   })
   swap_usd_value!: number;
 
-  @Column({ 
-    type: "decimal", 
-    precision: 16, 
+  @Column({
+    type: "decimal",
+    precision: 16,
     scale: 2,
     transformer: {
       to: (value: number | string): string => value.toString(),
-      from: (value: string): number => parseFloat(value)
-    }
+      from: (value: string): number => parseFloat(value),
+    },
   })
   received_amount!: number;
 
