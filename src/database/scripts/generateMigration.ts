@@ -17,15 +17,15 @@ const generateMigration = async () => {
 
   const migrationName = process.argv[2];
   const migrationsDir = join(__dirname, "..", "migrations");
-  
+
   // Ensure migrations directory exists
   if (!existsSync(migrationsDir)) {
     mkdirSync(migrationsDir, { recursive: true });
   }
-  
+
   try {
     await AppDataSource.initialize();
-    
+
     const command = new MigrationGenerateCommand();
     await command.handler({
       name: migrationName,
@@ -35,11 +35,10 @@ const generateMigration = async () => {
       dataSource: AppDataSource,
       timestamp: true,
       check: false,
-      dryrun: false
+      dryrun: false,
     });
-    
+
     await AppDataSource.destroy();
-    
   } catch (error) {
     console.error("Error generating migration:", error);
     process.exit(1);
