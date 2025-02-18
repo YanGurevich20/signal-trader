@@ -44,7 +44,7 @@ export class TokenPriceMonitor {
   private async getCurrentPrice(): Promise<number> {
     const client = createJupiterApiClient();
     const inputAmount = 1 * 10 ** this.token.token_info.decimals;
-    
+
     // First get SOL price in USD
     const solQuote = await client.quoteGet({
       inputMint: NATIVE_MINT.toBase58(),
@@ -52,7 +52,7 @@ export class TokenPriceMonitor {
       amount: LAMPORTS_PER_SOL, // 1 SOL
     });
 
-    const solPriceUsd = Number(solQuote.outAmount) / (10 ** 6); // USDC has 6 decimals
+    const solPriceUsd = Number(solQuote.outAmount) / 10 ** 6; // USDC has 6 decimals
 
     const quote = await client.quoteGet({
       inputMint: this.token.address,
@@ -72,7 +72,9 @@ export class TokenPriceMonitor {
     const quote = await client.quoteGet({
       inputMint: this.token.address,
       outputMint: NATIVE_MINT.toBase58(),
-      amount: this.buyTransaction.received_amount * 10 ** this.token.token_info.decimals,
+      amount:
+        this.buyTransaction.received_amount *
+        10 ** this.token.token_info.decimals,
     });
 
     const potentialSolReturn = Number(quote.outAmount) / LAMPORTS_PER_SOL;
