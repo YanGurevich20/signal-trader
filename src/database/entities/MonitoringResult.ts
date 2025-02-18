@@ -6,8 +6,8 @@ import {
   ManyToOne,
   JoinColumn,
 } from "typeorm";
-import { DetectedToken } from "./DetectedToken";
-import { BuyTransaction } from "./BuyTransaction";
+import { DetectedToken } from "./DetectedToken.js";
+import { BuyTransaction } from "./BuyTransaction.js";
 
 @Entity({ name: "monitoring_results" })
 export class MonitoringResult {

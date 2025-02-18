@@ -1,18 +1,28 @@
 import "reflect-metadata";
 import "dotenv/config";
 import { DataSource, EntityTarget, ObjectLiteral, Repository } from "typeorm";
+import { join } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const AppDataSource = new DataSource({
   type: "postgres",
   url: process.env.DATABASE_POOLER_CONNECTION_STRING,
-  synchronize: true,
-  entities: ["src/database/entities/**/*.ts"],
+  synchronize: false,
+  entities: [join(__dirname, "entities", "*.{ts,js}")],
   subscribers: [],
-  migrations: [],
+  migrations: [join(__dirname, "migrations", "*.{ts,js}")],
+  migrationsRun: true,
   ssl: {
     rejectUnauthorized: false,
   },
 });
+
+// Export AppDataSource for CLI tools
+export default AppDataSource;
 
 class Database {
   private static instance: Database;

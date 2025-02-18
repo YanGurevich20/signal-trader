@@ -7,7 +7,11 @@
     "start": "pnpm tsx src/index.ts",
     "format": "prettier . --write",
     "startfile": "pnpm tsx $1",
-    "prepare": "husky"
+    "prepare": "husky",
+    "typeorm": "typeorm-ts-node-esm",
+    "migration:generate": "pnpm typeorm migration:generate -d ./src/database/database.ts",
+    "migration:run": "pnpm typeorm migration:run -d ./src/database/database.ts",
+    "migration:revert": "pnpm typeorm migration:revert -d ./src/database/database.ts"
   },
   "keywords": [],
   "author": "",
