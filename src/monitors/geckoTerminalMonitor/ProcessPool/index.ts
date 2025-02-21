@@ -46,11 +46,11 @@ export const processPool = async (pool: Pool) => {
       await logSkip(
         `Skipping token ${tokenAddress} with ${liquidity} liquidity`,
       );
-          // Log that we found an interesting token before processing it
-          await logAgentMessage(
-          `Found a curious token ${tokenAddress}, but it has less than 5000 liquidity (around ${liquidity})`,
-          AgentMessageType.SIMULATION
-    );
+      // Log that we found an interesting token before processing it
+      await logAgentMessage(
+        `Found a curious token ${tokenAddress}, but it has less than 5000 liquidity (around ${liquidity})`,
+        AgentMessageType.SIMULATION,
+      );
 
       return;
     }
@@ -67,7 +67,7 @@ export const processPool = async (pool: Pool) => {
     // Log that we found an interesting token before processing it
     await logAgentMessage(
       `Found interesting token ${tokenAddress} (${tokenInfo.attributes.name}) with ${user.follower_count} followers, $${Number(liquidity).toFixed(2)} liquidity`,
-      AgentMessageType.SIMULATION
+      AgentMessageType.SIMULATION,
     );
 
     const token = await notifyToken(pool, tokenInfo, user);
@@ -81,13 +81,13 @@ export const processPool = async (pool: Pool) => {
       console.error("error in processPool", data[0]?.message);
       await logAgentMessage(
         `Error processing token ${tokenAddress}: ${data[0]?.message}`,
-        AgentMessageType.ERROR
+        AgentMessageType.ERROR,
       );
     } else {
       console.error("error in processPool", error);
       await logAgentMessage(
         `Error processing token ${tokenAddress}: ${error instanceof Error ? error.message : String(error)}`,
-        AgentMessageType.ERROR
+        AgentMessageType.ERROR,
       );
     }
     return;

@@ -1,5 +1,8 @@
 import { database } from "@/database/database";
-import { AgentMessage, AgentMessageType } from "@/database/entities/AgentMessage";
+import {
+  AgentMessage,
+  AgentMessageType,
+} from "@/database/entities/AgentMessage";
 
 // Rate limiting: max 6 logs per minute
 const MAX_LOGS_PER_MINUTE = 6;
@@ -7,9 +10,12 @@ const LOG_WINDOW_MS = 60 * 1000; // 1 minute
 let logCount = 0;
 let lastResetTime = Date.now();
 
-export const logAgentMessage = async (message: string, type = AgentMessageType.INFO) => {
+export const logAgentMessage = async (
+  message: string,
+  type = AgentMessageType.INFO,
+) => {
   const now = Date.now();
-  
+
   // Reset counter if window has passed
   if (now - lastResetTime >= LOG_WINDOW_MS) {
     logCount = 0;
@@ -32,4 +38,4 @@ export const logAgentMessage = async (message: string, type = AgentMessageType.I
   } catch (error) {
     console.error("Error logging agent message:", error);
   }
-}; 
+};
