@@ -8,6 +8,8 @@ import { notifyToken } from "./notifyToken";
 import { simulateBuy } from "./simulateBuy";
 import { database } from "@/database/database";
 import { DetectedToken } from "@/database/entities/DetectedToken";
+import { logAgentMessage } from "@/utils/agentLog";
+import { AgentMessageType } from "@/database/entities/AgentMessage";
 
 export const processPool = async (pool: Pool) => {
   const tokenAddress = pool.relationships.base_token.data.id.split("_")[1];
@@ -44,6 +46,12 @@ export const processPool = async (pool: Pool) => {
       await logSkip(
         `Skipping token ${tokenAddress} with ${liquidity} liquidity`,
       );
+          // Log that we found an interesting token before processing it
+          await logAgentMessage(
+          `Found a curious token ${tokenAddress}, but it has less than 5000 liquidity (around ${liquidity})`,
+          AgentMessageType.SIMULATION
+    );
+
       return;
     }
     const transactionCount =
@@ -55,6 +63,13 @@ export const processPool = async (pool: Pool) => {
       );
       return;
     }
+
+    // Log that we found an interesting token before processing it
+    await logAgentMessage(
+      `Found interesting token ${tokenAddress} (${tokenInfo.attributes.name}) with ${user.follower_count} followers, $${Number(liquidity).toFixed(2)} liquidity`,
+      AgentMessageType.SIMULATION
+    );
+
     const token = await notifyToken(pool, tokenInfo, user);
     await simulateBuy(token);
   } catch (error) {
@@ -64,8 +79,16 @@ export const processPool = async (pool: Pool) => {
         message: string;
       }[];
       console.error("error in processPool", data[0]?.message);
+      await logAgentMessage(
+        `Error processing token ${tokenAddress}: ${data[0]?.message}`,
+        AgentMessageType.ERROR
+      );
     } else {
       console.error("error in processPool", error);
+      await logAgentMessage(
+        `Error processing token ${tokenAddress}: ${error instanceof Error ? error.message : String(error)}`,
+        AgentMessageType.ERROR
+      );
     }
     return;
   }

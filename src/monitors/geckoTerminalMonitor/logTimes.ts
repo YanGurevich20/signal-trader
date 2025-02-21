@@ -11,4 +11,8 @@ export const logTimes = (pools: Pool[]) => {
   console.log(
     `${new Date().toLocaleTimeString("en-GB")} - processing ${pools.length} pools. Closest: ${newestPool.minutes}m ${newestPool.seconds}s - Farthest: ${oldestPool.minutes}m ${oldestPool.seconds}s`,
   );
+  return {
+    newestPool,
+    oldestPool,
+  };
 };
